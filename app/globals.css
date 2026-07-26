@@ -1421,6 +1421,8 @@ img {
   text-align: left;
   cursor: pointer;
   perspective: 1600px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .flip-card-inner {
@@ -1428,7 +1430,9 @@ img {
   display: block;
   width: 100%;
   height: 100%;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
+  will-change: transform;
   transition: transform 0.78s cubic-bezier(0.2, 0.78, 0.2, 1);
 }
 
@@ -1446,14 +1450,19 @@ img {
   padding: clamp(1.4rem, 3.5vw, 3rem);
   border: 1px solid var(--ink);
   border-radius: 0;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  will-change: transform, visibility;
   box-shadow: 18px 20px 0 rgba(23, 25, 21, 0.16);
 }
 
 .card-front {
   color: var(--paper);
   background: var(--ink);
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+  transform: rotateY(0deg) translateZ(1px);
 }
 
 .card-front::after {
@@ -1486,7 +1495,14 @@ img {
 
 .card-back {
   color: var(--ink);
-  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+  transform: rotateY(180deg) translateZ(1px);
+}
+
+.text-arrow {
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-emoji: text;
+  font-style: normal;
 }
 
 .card-back.lime {
@@ -1923,7 +1939,7 @@ footer > div {
   }
 
   .hero {
-    min-height: 106svh;
+    min-height: 118svh;
     grid-template-rows: 72px 1fr auto;
     padding: 0 1rem 1rem;
     background-size: 25vw 25vw;
@@ -1937,7 +1953,7 @@ footer > div {
   .hero-copy {
     grid-column: 1 / -1;
     align-self: start;
-    padding-top: 13vh;
+    padding-top: clamp(5.5rem, 11svh, 7.5rem);
   }
 
   .hero-kicker {
@@ -1956,20 +1972,21 @@ footer > div {
   }
 
   .hero-intro {
-    max-width: 70%;
+    max-width: min(100%, 32rem);
     margin: 1.8rem 0 0;
+    padding-right: 0.5rem;
     font-size: 0.82rem;
   }
 
   .hero-main-photo {
-    top: 47%;
-    right: -0.8rem;
-    width: 48vw;
+    top: clamp(27rem, 58svh, 33rem);
+    right: 0.75rem;
+    width: min(52vw, 230px);
     padding: 0.4rem 0.4rem 0.7rem;
   }
 
   .hero-main-photo img {
-    height: 31vh;
+    height: clamp(13rem, 29svh, 17rem);
   }
 
   .hero-main-photo figcaption {
@@ -2166,6 +2183,7 @@ footer > div {
   .goal-board {
     grid-template-columns: 1fr;
     gap: 1.3rem;
+    padding: 0 0.9rem 0.9rem 0.35rem;
   }
 
   .goal-note {
@@ -2249,7 +2267,32 @@ footer > div {
     transform: none;
   }
 
+  .flip-card-inner {
+    transition-duration: 0.48s;
+  }
+
+  .card-front {
+    visibility: visible;
+    transition: visibility 0s linear 0s;
+  }
+
+  .card-back {
+    visibility: hidden;
+    transition: visibility 0s linear 0.24s;
+  }
+
+  .flip-card.is-flipped .card-front {
+    visibility: hidden;
+    transition-delay: 0.24s;
+  }
+
+  .flip-card.is-flipped .card-back {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
   .card-face {
+    contain: layout paint;
     padding: 1.2rem;
     box-shadow: 9px 10px 0 rgba(23, 25, 21, 0.17);
   }

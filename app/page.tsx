@@ -2,6 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const textSymbols = {
+  northEast: "\u2197\uFE0E",
+  southEast: "\u2198\uFE0E",
+  right: "\u2192\uFE0E",
+  down: "\u2193\uFE0E",
+  up: "\u2191\uFE0E",
+  rotate: "\u21BB\uFE0E",
+} as const;
+
 const interests = [
   {
     id: "sport",
@@ -20,7 +29,7 @@ const interests = [
     ],
     image: "/images/sport.png",
     imageAlt: "Tennisspieler beim Aufschlag auf einem blauen Court",
-    icon: "↗",
+    icon: textSymbols.northEast,
     color: "lime",
   },
   {
@@ -345,13 +354,13 @@ export default function Home() {
               <button type="button" onClick={closeMenu} aria-label="Menü schließen">×</button>
             </div>
             <a href="#about" onClick={closeMenu}>
-              <span>00</span> Profil <i>↘</i>
+              <span>00</span> Profil <i className="text-arrow">{textSymbols.southEast}</i>
             </a>
             <a href="#facts" onClick={closeMenu}>
-              <span>01</span> Persönlicher Steckbrief <i>→</i>
+              <span>01</span> Persönlicher Steckbrief <i className="text-arrow">{textSymbols.right}</i>
             </a>
             <a href="#scroll-story" onClick={closeMenu}>
-              <span>02</span> Interessen-Tour <i>→</i>
+              <span>02</span> Interessen-Tour <i className="text-arrow">{textSymbols.right}</i>
             </a>
             {interests.map((item) => (
               <a key={item.id} href={`#${item.id}`} onClick={closeMenu}>
@@ -359,10 +368,10 @@ export default function Home() {
               </a>
             ))}
             <a href="#ziele" onClick={closeMenu}>
-              <span>04</span> Ziele + Kontakt <i>↘</i>
+              <span>04</span> Ziele + Kontakt <i className="text-arrow">{textSymbols.southEast}</i>
             </a>
             <a href="#next" onClick={closeMenu}>
-              <span>05</span> Ausblick <i>↘</i>
+              <span>05</span> Ausblick <i className="text-arrow">{textSymbols.southEast}</i>
             </a>
           </div>
         </div>
@@ -408,7 +417,7 @@ export default function Home() {
         <aside className="hero-note">
           <span>GERADE AM LERNEN</span>
           <strong>HTML<br />CSS / JS</strong>
-          <i aria-hidden="true">↘</i>
+          <i className="text-arrow" aria-hidden="true">{textSymbols.southEast}</i>
         </aside>
 
         <div className="hero-index" aria-label="Direkt zu meinen Interessen">
@@ -423,7 +432,7 @@ export default function Home() {
 
         <a className="scroll-cue" href="#about">
           <span>RUNTER<br />SCROLLEN</span>
-          <i>↓</i>
+          <i className="text-arrow">{textSymbols.down}</i>
         </a>
       </section>
 
@@ -506,7 +515,7 @@ export default function Home() {
                 </i>
               ))}
             </div>
-            <span>VERTIKAL ↓ / HORIZONTAL →</span>
+            <span>VERTIKAL {textSymbols.down} / HORIZONTAL {textSymbols.right}</span>
           </div>
 
           <div className="story-track">
@@ -522,7 +531,7 @@ export default function Home() {
                   <h2>{item.title}</h2>
                   <p>{item.text}</p>
                   <a href={`#${item.id}`}>
-                    Karte entdecken <i>↘</i>
+                    Karte entdecken <i className="text-arrow">{textSymbols.southEast}</i>
                   </a>
                 </div>
                 <div className="story-tags" aria-hidden="true">
@@ -555,7 +564,7 @@ export default function Home() {
               >
                 <span>{item.number}</span>
                 {item.title}
-                <i>↗</i>
+                <i className="text-arrow">{textSymbols.northEast}</i>
               </a>
             ))}
           </aside>
@@ -601,14 +610,14 @@ export default function Home() {
                         <span className="card-front-content">
                           <span>{item.kicker}</span>
                           <strong>{item.title}</strong>
-                          <span className="flip-hint">UMDREHEN <i>↻</i></span>
+                          <span className="flip-hint">UMDREHEN <i className="text-arrow">{textSymbols.rotate}</i></span>
                         </span>
                       </span>
 
                       <span className={`card-face card-back ${item.color}`}>
                         <span className="card-top">
                           <span>NOTIZ / {item.number}</span>
-                          <span className="card-icon">↻</span>
+                          <span className="card-icon text-arrow">{textSymbols.rotate}</span>
                         </span>
                         <span className="card-back-content">
                           <span className="card-note">{item.note}</span>
@@ -654,7 +663,7 @@ export default function Home() {
               <span>{goal.number} / NEXT</span>
               <strong>{goal.title}</strong>
               <p>{goal.text}</p>
-              <i aria-hidden="true">↗</i>
+              <i className="text-arrow" aria-hidden="true">{textSymbols.northEast}</i>
             </article>
           ))}
         </div>
@@ -669,7 +678,7 @@ export default function Home() {
         >
           <span>KONTAKT / INSTAGRAM</span>
           <strong>@b.j.1308</strong>
-          <i>↗</i>
+          <i className="text-arrow">{textSymbols.northEast}</i>
         </a>
       </section>
 
@@ -696,8 +705,12 @@ export default function Home() {
         <a className="logo" href="#top">B/<span>18</span></a>
         <p>Benjamin · 18 · Always learning</p>
         <div>
-          <a href="https://www.instagram.com/b.j.1308" target="_blank" rel="noreferrer">INSTAGRAM ↗</a>
-          <a href="#top">BACK TO TOP ↑</a>
+          <a href="https://www.instagram.com/b.j.1308" target="_blank" rel="noreferrer">
+            INSTAGRAM <span className="text-arrow">{textSymbols.northEast}</span>
+          </a>
+          <a href="#top">
+            BACK TO TOP <span className="text-arrow">{textSymbols.up}</span>
+          </a>
         </div>
       </footer>
     </main>
