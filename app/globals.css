@@ -1892,7 +1892,7 @@ footer > div {
     left: 50%;
     top: auto;
     bottom: 0.7rem;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     width: min(360px, calc(100vw - 1.4rem));
     padding: 0.35rem;
     box-shadow: 5px 6px 0 rgba(23, 25, 21, 0.16);
@@ -2186,17 +2186,11 @@ footer > div {
     padding: 0 0.9rem 0.9rem 0.35rem;
   }
 
-  .goal-note {
-    min-height: 310px;
-    transform: rotate(-0.8deg);
-  }
-
-  .goal-note:nth-child(2) {
-    transform: rotate(0.8deg);
-  }
-
+  .goal-note,
+  .goal-note:nth-child(2),
   .goal-note:nth-child(3) {
-    transform: rotate(-0.4deg);
+    min-height: 310px;
+    transform: none;
   }
 
   .goal-note strong {

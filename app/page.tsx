@@ -309,6 +309,10 @@ export default function Home() {
       <div className="scroll-progress" aria-hidden="true" />
       <nav className="chapter-nav" aria-label="Kapitelübersicht">
         <span className="chapter-nav-title">KAPITEL</span>
+        <a className="chapter-home" href="#top" aria-label="Zurück zum Start">
+          <span className="text-arrow">{textSymbols.up}</span>
+          <small>Start</small>
+        </a>
         {chapters.map((chapter) => (
           <a
             key={chapter.id}
