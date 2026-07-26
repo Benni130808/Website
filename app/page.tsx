@@ -262,7 +262,8 @@ export default function Home() {
         </a>
         <nav aria-label="Hauptnavigation">
           <a href="#about">Profil</a>
-          <a href="#scroll-story">Scroll Story</a>
+          <a href="#facts">Steckbrief</a>
+          <a href="#scroll-story">Interessen</a>
           <a href="#ziele">Ziele</a>
         </nav>
         <div className="menu-shell" ref={menuRef}>
@@ -282,22 +283,28 @@ export default function Home() {
             aria-hidden={!menuOpen}
           >
             <div className="menu-heading">
-              <span>INHALT / 06</span>
+              <span>INHALT / 09</span>
               <button type="button" onClick={closeMenu} aria-label="Menü schließen">×</button>
             </div>
             <a href="#about" onClick={closeMenu}>
               <span>00</span> Profil <i>↘</i>
             </a>
+            <a href="#facts" onClick={closeMenu}>
+              <span>01</span> Persönlicher Steckbrief <i>→</i>
+            </a>
             <a href="#scroll-story" onClick={closeMenu}>
-              <span>SC</span> Scroll Story <i>→</i>
+              <span>02</span> Interessen-Tour <i>→</i>
             </a>
             {interests.map((item) => (
               <a key={item.id} href={`#${item.id}`} onClick={closeMenu}>
-                <span>{item.number}</span> {item.title} <i>{item.icon}</i>
+                <span>03.{item.number}</span> {item.title} <i>{item.icon}</i>
               </a>
             ))}
             <a href="#ziele" onClick={closeMenu}>
-              <span>05</span> Ziele + Kontakt <i>↘</i>
+              <span>04</span> Ziele + Kontakt <i>↘</i>
+            </a>
+            <a href="#next" onClick={closeMenu}>
+              <span>05</span> Ausblick <i>↘</i>
             </a>
           </div>
         </div>
@@ -381,6 +388,28 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="quick-section" id="facts">
+        <div className="quick-intro" data-reveal>
+          <p className="eyebrow">01 / PERSONAL INDEX / 09</p>
+          <h2>Neun Dinge,<br /><em>die wirklich passen.</em></h2>
+          <p>Aufklappen und mehr erfahren – diesmal mit echten Lieblingsorten, Zielen und Sounds.</p>
+        </div>
+        <div className="quick-grid">
+          {quickFacts.map((fact, index) => (
+            <details className={`quick-fact ${fact.compact ? "compact" : ""}`} key={fact.label} data-reveal>
+              <summary>
+                <span>0{index + 1} / {fact.label}</span>
+                <strong>{fact.value}</strong>
+                <i>＋</i>
+              </summary>
+              <div>
+                <p>{fact.text}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
       <section
         className="scroll-story"
         id="scroll-story"
@@ -389,7 +418,7 @@ export default function Home() {
       >
         <div className="story-sticky">
           <div className="story-chrome">
-            <span>SCROLL STORY</span>
+            <span>02 / INTERESSEN TOUR</span>
             <div className="story-dots" aria-label={`Kapitel ${storyIndex + 1} von 4`}>
               {interests.map((item, index) => (
                 <i className={storyIndex === index ? "active" : ""} key={item.id}>
@@ -428,66 +457,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="quick-section">
-        <div className="quick-intro" data-reveal>
-          <p className="eyebrow">PERSONAL INDEX / 09</p>
-          <h2>Neun Dinge,<br /><em>die wirklich passen.</em></h2>
-          <p>Aufklappen und mehr erfahren – diesmal mit echten Lieblingsorten, Zielen und Sounds.</p>
-        </div>
-        <div className="quick-grid">
-          {quickFacts.map((fact, index) => (
-            <details className={`quick-fact ${fact.compact ? "compact" : ""}`} key={fact.label} data-reveal>
-              <summary>
-                <span>0{index + 1} / {fact.label}</span>
-                <strong>{fact.value}</strong>
-                <i>＋</i>
-              </summary>
-              <div>
-                <p>{fact.text}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <section className="goal-section" id="ziele">
-        <div className="goal-intro" data-reveal>
-          <p className="eyebrow">05 / WAS JETZT ZÄHLT</p>
-          <h2>Drei Ziele.<br /><em>Kein Stillstand.</em></h2>
-          <p>
-            Keine Bucket List für irgendwann – sondern die Richtung, in die ich
-            mich gerade bewege.
-          </p>
-        </div>
-
-        <div className="goal-board">
-          {goals.map((goal) => (
-            <article className="goal-note" key={goal.number} data-reveal>
-              <span>{goal.number} / NEXT</span>
-              <strong>{goal.title}</strong>
-              <p>{goal.text}</p>
-              <i aria-hidden="true">↗</i>
-            </article>
-          ))}
-        </div>
-
-        <a
-          className="instagram-card"
-          href="https://www.instagram.com/b.j.1308"
-          target="_blank"
-          rel="noreferrer"
-          data-reveal
-          aria-label="Benjamin auf Instagram öffnen"
-        >
-          <span>KONTAKT / INSTAGRAM</span>
-          <strong>@b.j.1308</strong>
-          <i>↗</i>
-        </a>
-      </section>
-
       <section className="interests" id="interessen">
         <div className="section-head" data-reveal>
-          <p className="eyebrow">ARCHIV / 04 KARTEN</p>
+          <p className="eyebrow">03 / DEEP DIVE / 04 KARTEN</p>
           <h2>Klick rein.<br /><em>Dreh um.</em></h2>
           <p>Jede Karte hat eine Vorder- und Rückseite – genau wie die Interessen selbst.</p>
         </div>
@@ -568,6 +540,41 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="goal-section" id="ziele">
+        <div className="goal-intro" data-reveal>
+          <p className="eyebrow">04 / WAS JETZT ZÄHLT</p>
+          <h2>Drei Ziele.<br /><em>Kein Stillstand.</em></h2>
+          <p>
+            Keine Bucket List für irgendwann – sondern die Richtung, in die ich
+            mich gerade bewege.
+          </p>
+        </div>
+
+        <div className="goal-board">
+          {goals.map((goal) => (
+            <article className="goal-note" key={goal.number} data-reveal>
+              <span>{goal.number} / NEXT</span>
+              <strong>{goal.title}</strong>
+              <p>{goal.text}</p>
+              <i aria-hidden="true">↗</i>
+            </article>
+          ))}
+        </div>
+
+        <a
+          className="instagram-card"
+          href="https://www.instagram.com/b.j.1308"
+          target="_blank"
+          rel="noreferrer"
+          data-reveal
+          aria-label="Benjamin auf Instagram öffnen"
+        >
+          <span>KONTAKT / INSTAGRAM</span>
+          <strong>@b.j.1308</strong>
+          <i>↗</i>
+        </a>
+      </section>
+
       <section className="finale" id="next">
         <div className="finale-photo" data-reveal>
           <span className="tape tape-top" aria-hidden="true" />
@@ -575,7 +582,7 @@ export default function Home() {
           <small>FORTSETZUNG FOLGT …</small>
         </div>
         <div className="finale-copy" data-reveal>
-          <p className="eyebrow">KEIN FERTIGES PROFIL</p>
+          <p className="eyebrow">05 / KEIN FERTIGES PROFIL</p>
           <h2>
             EHER EIN<br />
             <span>STARTPUNKT.</span>

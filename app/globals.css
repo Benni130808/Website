@@ -1031,11 +1031,11 @@ img {
   position: relative;
   overflow: hidden;
   padding: 10vw 5vw 11vw;
-  color: var(--paper);
+  color: var(--ink);
   background:
-    linear-gradient(rgba(241, 236, 223, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(241, 236, 223, 0.055) 1px, transparent 1px),
-    var(--ink);
+    linear-gradient(rgba(23, 25, 21, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 25, 21, 0.08) 1px, transparent 1px),
+    var(--coral);
   background-size: 6vw 6vw;
 }
 
@@ -1044,7 +1044,7 @@ img {
   position: absolute;
   right: -0.05em;
   top: -0.16em;
-  color: rgba(241, 236, 223, 0.035);
+  color: rgba(23, 25, 21, 0.045);
   font-family: Impact, "Arial Narrow", sans-serif;
   font-size: 19vw;
   line-height: 0.82;
@@ -1066,7 +1066,7 @@ img {
 .goal-intro .eyebrow {
   align-self: start;
   padding-top: 0.8rem;
-  color: var(--lime);
+  color: var(--ink);
 }
 
 .goal-intro h2 {
@@ -1077,7 +1077,7 @@ img {
 }
 
 .goal-intro h2 em {
-  color: var(--coral);
+  color: var(--paper);
   font-family: Georgia, serif;
   font-weight: 400;
 }
@@ -1085,9 +1085,9 @@ img {
 .goal-intro > p:last-child {
   margin: 0;
   padding: 1rem 0;
-  border-top: 2px solid var(--paper);
-  border-bottom: 1px solid rgba(241, 236, 223, 0.5);
-  color: rgba(241, 236, 223, 0.68);
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid rgba(23, 25, 21, 0.5);
+  color: rgba(23, 25, 21, 0.7);
   font-size: 0.83rem;
   line-height: 1.5;
 }
@@ -1106,7 +1106,7 @@ img {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  border: 1px solid var(--paper);
+  border: 1px solid var(--ink);
   color: var(--ink);
   background: var(--lime);
   box-shadow: 12px 14px 0 rgba(0, 0, 0, 0.3);
@@ -1168,15 +1168,15 @@ img {
   gap: 2rem;
   margin-top: 7rem;
   padding: 1.7rem 0;
-  border-top: 2px solid var(--paper);
-  border-bottom: 2px solid var(--paper);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
   transition: color 0.22s, padding 0.22s, background 0.22s;
 }
 
 .instagram-card:hover {
   padding-inline: 1.2rem;
-  color: var(--ink);
-  background: var(--coral);
+  color: var(--paper);
+  background: var(--ink);
 }
 
 .instagram-card span {
