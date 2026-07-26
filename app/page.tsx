@@ -13,6 +13,11 @@ const interests = [
     note: "Mein Drive",
     detail: "Disziplin fühlt sich nicht immer leicht an. Aber das Gefühl, ein Ziel erreicht zu haben, ist es jedes Mal wert.",
     tags: ["Tennis", "Fußball", "Gym"],
+    facts: [
+      { label: "Tennis-Favorit", value: "Alexander Zverev" },
+      { label: "Meine Position", value: "Linker Flügel" },
+      { label: "Gym-Ziel", value: "Ein Muscle-Up" },
+    ],
     image: "/images/sport.png",
     imageAlt: "Tennisspieler beim Aufschlag auf einem blauen Court",
     icon: "↗",
@@ -28,6 +33,11 @@ const interests = [
     note: "Mein Sound",
     detail: "Musik ist mein Ausgleich: ausprobieren, falsch greifen, neu anfangen – bis aus einzelnen Tönen etwas Eigenes entsteht.",
     tags: ["Gitarre", "Klavier", "Vibes"],
+    facts: [
+      { label: "Gitarre", value: "Seit 8 Jahren" },
+      { label: "Bruno-Mars-Song", value: "Grenade" },
+      { label: "Aktuell", value: "Passacaglia" },
+    ],
     image: "/images/musik.png",
     imageAlt: "Hände beim Gitarrespielen in einem warmen Musikzimmer",
     icon: "♫",
@@ -43,6 +53,10 @@ const interests = [
     note: "Mein nächstes Level",
     detail: "Noch bin ich Lernender. Mein Ziel: nicht nur Code verstehen, sondern damit Projekte erschaffen, die Spaß machen und wirklich funktionieren.",
     tags: ["Lernen", "Bauen", "Entdecken"],
+    facts: [
+      { label: "Erstes Projekt", value: "Ein kleines, lustiges Programm" },
+      { label: "Mein Reiz", value: "Erschaffen & optimieren" },
+    ],
     image: "/images/code.png",
     imageAlt: "Junger Programmierer an einem Schreibtisch bei Abendlicht",
     icon: "{ }",
@@ -58,6 +72,11 @@ const interests = [
     note: "Mein Reset",
     detail: "Das Meer macht den Kopf frei. Über der Wasseroberfläche beim Surfen – und darunter beim Tauchen in eine komplett andere Welt.",
     tags: ["Reisen", "Surfen", "Tauchen"],
+    facts: [
+      { label: "Oʻahu-Favorit", value: "US Naval Radio Station Haʻikū" },
+      { label: "Dort erlebt", value: "Surfen & Tauchen" },
+      { label: "Indonesien", value: "Naturvielfalt & Landschaft" },
+    ],
     image: "/images/meer.png",
     imageAlt: "Surfer mit Board im klaren Meer bei Sonnenaufgang",
     icon: "≈",
@@ -440,7 +459,6 @@ export default function Home() {
             <article
               className={`quick-fact ${fact.compact ? "compact" : ""} ${isOpen ? "is-open" : ""}`}
               key={fact.label}
-              data-reveal
             >
               <button
                 className="fact-toggle"
@@ -587,6 +605,14 @@ export default function Home() {
                           <strong>{item.title}</strong>
                           <span className="card-description">{item.text}</span>
                           <span className="card-detail">{item.detail}</span>
+                          <span className="interest-facts">
+                            {item.facts.map((fact) => (
+                              <span key={fact.label}>
+                                <small>{fact.label}</small>
+                                <strong>{fact.value}</strong>
+                              </span>
+                            ))}
+                          </span>
                           <span className="tags">
                             {item.tags.map((tag) => <span key={tag}>{tag}</span>)}
                           </span>

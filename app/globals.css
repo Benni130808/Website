@@ -1582,7 +1582,7 @@ img {
 }
 
 .card-back-content > strong {
-  margin-bottom: 2rem;
+  margin-bottom: 1.4rem;
 }
 
 .card-description {
@@ -1594,11 +1594,51 @@ img {
 
 .card-detail {
   max-width: 620px;
-  margin: 1.2rem 0 2rem;
+  margin: 1rem 0 1.2rem;
   padding-top: 1.2rem;
   border-top: 2px solid currentColor;
   font-weight: 600;
   line-height: 1.5;
+}
+
+.interest-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  width: 100%;
+  margin-bottom: 1.25rem;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.interest-facts > span {
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.7rem;
+  border-right: 1px solid currentColor;
+}
+
+.interest-facts > span:first-child {
+  padding-left: 0;
+}
+
+.interest-facts > span:last-child {
+  border-right: 0;
+}
+
+.interest-facts small {
+  font-family: "Courier New", monospace;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.interest-facts strong {
+  font-size: clamp(0.82rem, 1.25vw, 1.05rem);
+  line-height: 1.2;
 }
 
 .tags {
@@ -2201,8 +2241,8 @@ footer > div {
 
   .interest-card-wrap,
   .flip-card {
-    height: 76svh;
-    min-height: 610px;
+    height: 82svh;
+    min-height: 690px;
   }
 
   .interest-card-wrap:nth-child(n) {
@@ -2229,6 +2269,28 @@ footer > div {
 
   .card-detail {
     font-size: 0.84rem;
+  }
+
+  .interest-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 0.8rem;
+  }
+
+  .interest-facts > span {
+    min-height: 84px;
+    padding: 0.55rem;
+  }
+
+  .interest-facts > span:first-child {
+    padding-left: 0;
+  }
+
+  .interest-facts small {
+    font-size: 0.43rem;
+  }
+
+  .interest-facts strong {
+    font-size: 0.68rem;
   }
 
   .finale {
