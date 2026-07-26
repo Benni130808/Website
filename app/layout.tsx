@@ -13,30 +13,30 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(origin),
-    title: "Benjamin — Sport, Musik, Code & Meer",
+    title: "Benjamin — Field Notes",
     description:
-      "Hi, ich bin Benjamin. 18 Jahre, neugierig und immer bereit für das nächste Level.",
+      "Benjamin, 18: Sport, Musik, Code und Meer – als persönliches digitales Field-Notes-Heft.",
     openGraph: {
-      title: "Benjamin — Sport, Musik, Code & Meer",
-      description: "Vier Interessen. Unendlich viele Möglichkeiten.",
+      title: "Benjamin — Field Notes",
+      description: "18 / Sport / Musik / Code / Meer",
       url: origin,
       siteName: "Benjamin",
       locale: "de_DE",
       type: "website",
       images: [
         {
-          url: `${origin}/og.png`,
+          url: `${origin}/og-v2.png`,
           width: 1734,
           height: 907,
-          alt: "Benjamin — Sport, Musik, Code & Meer",
+          alt: "Benjamin — 18 / Sport / Musik / Code / Meer",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Benjamin — Sport, Musik, Code & Meer",
-      description: "Vier Interessen. Unendlich viele Möglichkeiten.",
-      images: [`${origin}/og.png`],
+      title: "Benjamin — Field Notes",
+      description: "18 / Sport / Musik / Code / Meer",
+      images: [`${origin}/og-v2.png`],
     },
   };
 }

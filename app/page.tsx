@@ -7,6 +7,7 @@ const interests = [
     id: "sport",
     number: "01",
     title: "Sport",
+    short: "Court / Platz / Gym",
     kicker: "Bewegen. Wachsen. Dranbleiben.",
     text: "Ob auf dem Court, dem Fußballplatz oder im Gym – Sport ist für mich mehr als Bewegung. Er zeigt mir, was mit Fokus und Disziplin möglich ist.",
     note: "Mein Drive",
@@ -21,6 +22,7 @@ const interests = [
     id: "musik",
     number: "02",
     title: "Musik",
+    short: "Saiten / Tasten / Sound",
     kicker: "Gefühl wird zu Sound.",
     text: "Mit der Gitarre verliere ich jedes Zeitgefühl. Gerade bringe ich mir außerdem Klavier bei – Taste für Taste, Song für Song.",
     note: "Mein Sound",
@@ -35,6 +37,7 @@ const interests = [
     id: "code",
     number: "03",
     title: "Coding",
+    short: "Lernen / Bauen / Debuggen",
     kicker: "Ideen werden echt.",
     text: "Ich stehe noch am Anfang, aber genau das macht es spannend: Neues lernen, Fehler knacken und irgendwann Projekte bauen, die vorher nur im Kopf existiert haben.",
     note: "Mein nächstes Level",
@@ -49,6 +52,7 @@ const interests = [
     id: "meer",
     number: "04",
     title: "Meer",
+    short: "Reisen / Surfen / Tauchen",
     kicker: "Draußen ist mein Lieblingsort.",
     text: "Reisen bedeutet Freiheit. Am liebsten bin ich dort, wo das Meer beginnt – beim Surfen auf der Welle, beim Tauchen darunter oder einfach mit Sand unter den Füßen.",
     note: "Mein Reset",
@@ -88,10 +92,12 @@ export default function Home() {
   const [active, setActive] = useState("sport");
   const [flipped, setFlipped] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [storyIndex, setStoryIndex] = useState(0);
   const rootRef = useRef<HTMLElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const storyRef = useRef<HTMLElement | null>(null);
   const cardRefs = useRef<Record<string, HTMLElement | null>>({});
 
   useEffect(() => {
@@ -104,7 +110,7 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.16, rootMargin: "0px 0px -6%" },
+      { threshold: 0.14, rootMargin: "0px 0px -7%" },
     );
 
     document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((node) => {
@@ -124,16 +130,31 @@ export default function Home() {
     Object.values(cardRefs.current).forEach((node) => node && cardObserver.observe(node));
 
     let scrollFrame = 0;
+    let lastStoryIndex = -1;
     const onScroll = () => {
       if (scrollFrame) return;
       scrollFrame = window.requestAnimationFrame(() => {
         const max = document.documentElement.scrollHeight - window.innerHeight;
         const progress = max > 0 ? window.scrollY / max : 0;
         rootRef.current?.style.setProperty("--scroll-progress", `${progress}`);
-        heroRef.current?.style.setProperty(
-          "--hero-shift",
-          `${Math.min(window.scrollY * 0.18, 130)}px`,
-        );
+
+        const heroProgress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+        heroRef.current?.style.setProperty("--hero-shift", `${heroProgress * 110}px`);
+        heroRef.current?.style.setProperty("--hero-fade", `${1 - heroProgress * 0.78}`);
+
+        const story = storyRef.current;
+        if (story) {
+          const rect = story.getBoundingClientRect();
+          const travel = story.offsetHeight - window.innerHeight;
+          const storyProgress = Math.min(Math.max(-rect.top / Math.max(travel, 1), 0), 1);
+          story.style.setProperty("--story-progress", `${storyProgress}`);
+          const nextIndex = Math.min(3, Math.floor(storyProgress * 3.999));
+          if (nextIndex !== lastStoryIndex) {
+            lastStoryIndex = nextIndex;
+            setStoryIndex(nextIndex);
+          }
+        }
+
         scrollFrame = 0;
       });
     };
@@ -175,9 +196,7 @@ export default function Home() {
     const glow = glowRef.current;
     if (!hero || !glow) return;
     const rect = hero.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    glow.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    glow.style.transform = `translate3d(${event.clientX - rect.left}px, ${event.clientY - rect.top}px, 0) translate(-50%, -50%)`;
     glow.style.opacity = "1";
   };
 
@@ -189,12 +208,12 @@ export default function Home() {
 
       <header className="nav">
         <a className="logo" href="#top" aria-label="Zurück zum Anfang">
-          B<span>.</span>
+          B/<span>18</span>
         </a>
         <nav aria-label="Hauptnavigation">
-          <a href="#about">Über mich</a>
+          <a href="#about">Profil</a>
+          <a href="#scroll-story">Scroll Story</a>
           <a href="#interessen">Interessen</a>
-          <a href="#next">Was kommt</a>
         </nav>
         <div className="menu-shell" ref={menuRef}>
           <button
@@ -204,7 +223,7 @@ export default function Home() {
             aria-controls="explore-menu"
             onClick={() => setMenuOpen((open) => !open)}
           >
-            Explore
+            Menü
             <span className={menuOpen ? "turn" : ""}>＋</span>
           </button>
           <div
@@ -213,20 +232,20 @@ export default function Home() {
             aria-hidden={!menuOpen}
           >
             <div className="menu-heading">
-              <span>SPRING ZU</span>
+              <span>INHALT / 06</span>
               <button type="button" onClick={closeMenu} aria-label="Menü schließen">×</button>
             </div>
             <a href="#about" onClick={closeMenu}>
-              <span>00</span> Über mich <i>↘</i>
+              <span>00</span> Profil <i>↘</i>
+            </a>
+            <a href="#scroll-story" onClick={closeMenu}>
+              <span>SC</span> Scroll Story <i>→</i>
             </a>
             {interests.map((item) => (
               <a key={item.id} href={`#${item.id}`} onClick={closeMenu}>
                 <span>{item.number}</span> {item.title} <i>{item.icon}</i>
               </a>
             ))}
-            <a href="#next" onClick={closeMenu}>
-              <span>05</span> Was kommt <i>→</i>
-            </a>
           </div>
         </div>
       </header>
@@ -242,104 +261,147 @@ export default function Home() {
         }}
       >
         <div className="cursor-glow" ref={glowRef} aria-hidden="true" />
-        <div className="hero-orbit orbit-one" aria-hidden="true">
-          <span>18</span>
-        </div>
-        <div className="hero-orbit orbit-two" aria-hidden="true">
-          <span>BER</span>
+        <div className="hero-ruler" aria-hidden="true">
+          {Array.from({ length: 14 }).map((_, index) => <i key={index} />)}
         </div>
 
         <div className="hero-copy">
-          <p className="eyebrow reveal">HEY, ICH BIN</p>
-          <h1 className="hero-title">
-            <span>BENJA</span>
-            <span className="outline">MIN.</span>
+          <p className="hero-kicker">FIELD NOTES / BENJAMIN / 2026</p>
+          <h1 className="hero-title" aria-label="Benjamin">
+            <span>BEN</span>
+            <span>JAMIN</span>
           </h1>
-        </div>
-
-        <div className="hero-photo-stack" aria-label="Einblicke in meine Interessen">
-          <a href="#sport" className="hero-photo photo-sport" aria-label="Zu Sport">
-            <img src="/images/sport.png" alt="" />
-            <span>SPORT</span>
-          </a>
-          <a href="#musik" className="hero-photo photo-musik" aria-label="Zu Musik">
-            <img src="/images/musik.png" alt="" />
-            <span>MUSIK</span>
-          </a>
-          <a href="#meer" className="hero-photo photo-meer" aria-label="Zum Meer">
-            <img src="/images/meer.png" alt="" />
-            <span>MEER</span>
-          </a>
-        </div>
-
-        <div className="hero-bottom reveal">
-          <p>
-            <strong>18 Jahre.</strong> Immer in Bewegung,
-            <br />
-            immer auf der Suche nach dem nächsten Level.
+          <p className="hero-intro">
+            18 Jahre. Vier Welten. Und ziemlich viel Lust, herauszufinden,
+            was als Nächstes möglich ist.
           </p>
-          <a className="scroll-cue" href="#about">
-            <span>SCROLL TO EXPLORE</span>
-            <i>↓</i>
-          </a>
         </div>
-        <div className="wave-lines" aria-hidden="true">
-          <span /><span /><span /><span /><span />
+
+        <figure className="hero-main-photo">
+          <span className="tape tape-top" aria-hidden="true" />
+          <img src="/images/meer.png" alt="Surfer mit Board im klaren Meer" />
+          <figcaption>
+            <span>04 / HAPPY PLACE</span>
+            Meer, Wellen, Kopf frei.
+          </figcaption>
+          <span className="photo-mark" aria-hidden="true">B.</span>
+        </figure>
+
+        <aside className="hero-note">
+          <span>GERADE AM LERNEN</span>
+          <strong>Klavier<br />&amp; Code</strong>
+          <i aria-hidden="true">↘</i>
+        </aside>
+
+        <div className="hero-index" aria-label="Direkt zu meinen Interessen">
+          {interests.map((item) => (
+            <a href={`#${item.id}`} key={item.id}>
+              <span>{item.number}</span>
+              <strong>{item.title}</strong>
+              <small>{item.short}</small>
+            </a>
+          ))}
         </div>
+
+        <a className="scroll-cue" href="#about">
+          <span>RUNTER<br />SCROLLEN</span>
+          <i>↓</i>
+        </a>
       </section>
 
       <section className="manifesto" id="about">
         <div className="manifesto-label" data-reveal>
-          <span>MEIN MINDSET</span>
+          <span>00 / PROFIL</span>
           <i />
         </div>
-        <p className="manifesto-copy" data-reveal>
-          Ich probiere aus, bleibe dran und lerne jeden Tag etwas Neues.
-          <span> Nicht perfekt sein – besser werden.</span>
-        </p>
-        <div className="sticker sticker-one" aria-hidden="true">STAY<br />CURIOUS</div>
-        <div className="sticker sticker-two" aria-hidden="true">★</div>
+        <div className="manifesto-copy" data-reveal>
+          <p>Ich sammle keine perfekten Momente.</p>
+          <p>
+            Ich sammle <em>Fortschritt</em>: einen stärkeren Aufschlag,
+            einen neuen Akkord, eine funktionierende Zeile Code und den
+            nächsten Sprung ins Meer.
+          </p>
+        </div>
+        <div className="manifesto-margin-note" data-reveal>
+          <span>NOTIZ AN MICH</span>
+          <strong>Neugierig bleiben.<br />Anfangen. Dranbleiben.</strong>
+        </div>
+      </section>
+
+      <section
+        className="scroll-story"
+        id="scroll-story"
+        ref={storyRef}
+        aria-label="Meine Interessen als Scroll-Geschichte"
+      >
+        <div className="story-sticky">
+          <div className="story-chrome">
+            <span>SCROLL STORY</span>
+            <div className="story-dots" aria-label={`Kapitel ${storyIndex + 1} von 4`}>
+              {interests.map((item, index) => (
+                <i className={storyIndex === index ? "active" : ""} key={item.id}>
+                  {item.number}
+                </i>
+              ))}
+            </div>
+            <span>VERTIKAL ↓ / HORIZONTAL →</span>
+          </div>
+
+          <div className="story-track">
+            {interests.map((item, index) => (
+              <article className={`story-panel story-${item.color}`} key={item.id}>
+                <div className="story-number" aria-hidden="true">{item.number}</div>
+                <figure>
+                  <img src={item.image} alt={item.imageAlt} />
+                  <figcaption>{item.short}</figcaption>
+                </figure>
+                <div className="story-copy">
+                  <span>KAPITEL {item.number} / 04</span>
+                  <h2>{item.title}</h2>
+                  <p>{item.text}</p>
+                  <a href={`#${item.id}`}>
+                    Karte entdecken <i>↘</i>
+                  </a>
+                </div>
+                <div className="story-tags" aria-hidden="true">
+                  {item.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <span className="story-count" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}—04
+                </span>
+              </article>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="quick-section">
         <div className="quick-intro" data-reveal>
-          <p className="eyebrow">BENJAMIN IN KURZ</p>
-          <h2>Ein paar <em>Quick Facts</em></h2>
-          <p>Klick die Karten auf – ein kleiner Steckbrief im Steckbrief.</p>
+          <p className="eyebrow">BENJAMIN / KOMPAKT</p>
+          <h2>Vier Dinge,<br /><em>die passen.</em></h2>
+          <p>Aufklappen für die Kurzfassung. Der Rest dieser Seite ist die Langfassung.</p>
         </div>
         <div className="quick-grid">
           {quickFacts.map((fact, index) => (
             <details className="quick-fact" key={fact.label} data-reveal>
               <summary>
-                <span>0{index + 1}</span>
+                <span>0{index + 1} / {fact.label}</span>
                 <strong>{fact.value}</strong>
                 <i>＋</i>
               </summary>
               <div>
-                <p>{fact.label}</p>
-                <span>{fact.text}</span>
+                <p>{fact.text}</p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
-      <section className="photo-reel" aria-label="Visuelle Eindrücke">
-        <div className="reel-track">
-          {[...interests, ...interests].map((item, index) => (
-            <a href={`#${item.id}`} key={`${item.id}-${index}`} tabIndex={index > 3 ? -1 : 0}>
-              <img src={item.image} alt={index < 4 ? item.imageAlt : ""} />
-              <span>{item.title}</span>
-            </a>
-          ))}
-        </div>
-      </section>
-
       <section className="interests" id="interessen">
         <div className="section-head" data-reveal>
-          <p className="eyebrow">WAS MICH ANTREIBT</p>
-          <h2>Meine <em>Welten</em></h2>
-          <p>Klick auf eine Karte, um sie umzudrehen.</p>
+          <p className="eyebrow">ARCHIV / 04 KARTEN</p>
+          <h2>Klick rein.<br /><em>Dreh um.</em></h2>
+          <p>Jede Karte hat eine Vorder- und Rückseite – genau wie die Interessen selbst.</p>
         </div>
 
         <div className="interest-layout">
@@ -383,19 +445,19 @@ export default function Home() {
                         <img src={item.image} alt={item.imageAlt} />
                         <span className="image-shade" />
                         <span className="card-top">
-                          <span>{item.number} / 04</span>
+                          <span>ARCHIV / {item.number}</span>
                           <span className="card-icon">{item.icon}</span>
                         </span>
                         <span className="card-front-content">
                           <span>{item.kicker}</span>
                           <strong>{item.title}</strong>
-                          <span className="flip-hint">KLICKEN &amp; UMDREHEN <i>↻</i></span>
+                          <span className="flip-hint">UMDREHEN <i>↻</i></span>
                         </span>
                       </span>
 
                       <span className={`card-face card-back ${item.color}`}>
                         <span className="card-top">
-                          <span>{item.number} / 04</span>
+                          <span>NOTIZ / {item.number}</span>
                           <span className="card-icon">↻</span>
                         </span>
                         <span className="card-back-content">
@@ -407,7 +469,7 @@ export default function Home() {
                             {item.tags.map((tag) => <span key={tag}>{tag}</span>)}
                           </span>
                         </span>
-                        <span className="card-decoration" aria-hidden="true" />
+                        <span className="card-decoration" aria-hidden="true">{item.number}</span>
                       </span>
                     </span>
                   </button>
@@ -420,23 +482,25 @@ export default function Home() {
 
       <section className="finale" id="next">
         <div className="finale-photo" data-reveal>
+          <span className="tape tape-top" aria-hidden="true" />
           <img src="/images/meer.png" alt="Blick auf einen Surfer im Meer" />
+          <small>FORTSETZUNG FOLGT …</small>
         </div>
         <div className="finale-copy" data-reveal>
-          <p className="eyebrow">UND DAS IST ERST DER ANFANG</p>
+          <p className="eyebrow">KEIN FERTIGES PROFIL</p>
           <h2>
-            LET&apos;S SEE<br />
-            WHAT&apos;S <span>NEXT.</span>
+            EHER EIN<br />
+            <span>STARTPUNKT.</span>
           </h2>
           <p>Mehr lernen. Weiter reisen. Neue Ideen bauen. Und dabei neugierig bleiben.</p>
         </div>
         <div className="finale-marquee" aria-hidden="true">
-          <div>SPORT ★ MUSIK ★ CODE ★ MEER ★ SPORT ★ MUSIK ★ CODE ★ MEER ★</div>
+          <div>SPORT / MUSIK / CODE / MEER / SPORT / MUSIK / CODE / MEER /</div>
         </div>
       </section>
 
       <footer>
-        <a className="logo" href="#top">B<span>.</span></a>
+        <a className="logo" href="#top">B/<span>18</span></a>
         <p>Benjamin · 18 · Always learning</p>
         <a href="#top">BACK TO TOP ↑</a>
       </footer>
