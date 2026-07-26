@@ -169,7 +169,7 @@ const chapters = [
 export default function Home() {
   const [active, setActive] = useState("sport");
   const [activeChapter, setActiveChapter] = useState("about");
-  const [flipped, setFlipped] = useState<string | null>(null);
+  const [flipped, setFlipped] = useState<Set<string>>(() => new Set());
   const [openFact, setOpenFact] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
@@ -562,7 +562,7 @@ export default function Home() {
 
           <div className="interest-cards">
             {interests.map((item) => {
-              const isFlipped = flipped === item.id;
+              const isFlipped = flipped.has(item.id);
               return (
                 <article
                   key={item.id}
@@ -578,7 +578,17 @@ export default function Home() {
                     className={`flip-card ${isFlipped ? "is-flipped" : ""}`}
                     aria-pressed={isFlipped}
                     aria-label={`${item.title}: ${isFlipped ? "Vorderseite zeigen" : "Details zeigen"}`}
-                    onClick={() => setFlipped(isFlipped ? null : item.id)}
+                    onClick={() => {
+                      setFlipped((current) => {
+                        const next = new Set(current);
+                        if (next.has(item.id)) {
+                          next.delete(item.id);
+                        } else {
+                          next.add(item.id);
+                        }
+                        return next;
+                      });
+                    }}
                   >
                     <span className="flip-card-inner">
                       <span className="card-face card-front">
