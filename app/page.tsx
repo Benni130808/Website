@@ -67,24 +67,74 @@ const interests = [
 
 const quickFacts = [
   {
-    label: "Aktuell",
-    value: "18",
-    text: "Alt genug für große Ziele. Jung genug, um alles auszuprobieren.",
+    label: "Lieblingssport",
+    value: "Tennis + FCB",
+    text: "Auf dem Court selbst aktiv – und beim Fußball Fan des FC Bayern München.",
+    compact: true,
   },
   {
-    label: "Mindset",
-    value: "1%+",
-    text: "Jeden Tag ein kleines Stück besser – ohne den Spaß am Weg zu verlieren.",
+    label: "Sportliches Ziel",
+    value: "Titel gewinnen",
+    text: "In einem Fußballverein spielen, als Team besser werden und gemeinsam einen Titel holen.",
+    compact: true,
   },
   {
-    label: "Happy Place",
-    value: "Meer",
-    text: "Am liebsten zwischen Wellen, Weite und dem nächsten Abenteuer.",
+    label: "Lieblingskünstler",
+    value: "Bruno Mars",
+    text: "Mein Favorit, wenn Musik einfach gute Energie haben soll.",
+    compact: true,
   },
   {
-    label: "Nächster Skill",
-    value: "Code",
-    text: "Verstehen, bauen, testen und aus einer Idee ein echtes Projekt machen.",
+    label: "Will ich spielen",
+    value: "Passacaglia",
+    text: "Die Passacaglia von Händel/Halvorsen ist eines der Stücke, die ich unbedingt lernen möchte.",
+    compact: true,
+  },
+  {
+    label: "Gerade am Lernen",
+    value: "HTML · CSS · JS",
+    text: "Die Grundlagen verstehen und daraus Schritt für Schritt eigene digitale Ideen bauen.",
+    compact: true,
+  },
+  {
+    label: "Will ich bauen",
+    value: "Diese Website",
+    text: "Eine persönliche, interaktive Website wie diese – nur irgendwann komplett selbst programmiert.",
+    compact: true,
+  },
+  {
+    label: "Schönste Reise",
+    value: "Oʻahu",
+    text: "Hawaii, besonders die Insel Oʻahu, ist mein bisher schönstes Reiseziel.",
+  },
+  {
+    label: "Traumreiseziel",
+    value: "Indonesien",
+    text: "Inseln, Meer, neue Kulturen und möglichst viele Abenteuer.",
+    compact: true,
+  },
+  {
+    label: "In drei Worten",
+    value: "3 Worte",
+    text: "Abenteuerlustig. Neugierig. Ehrlich.",
+  },
+];
+
+const goals = [
+  {
+    number: "01",
+    title: "Programmieren lernen",
+    text: "HTML, CSS und JavaScript wirklich verstehen – und damit eigene Projekte umsetzen.",
+  },
+  {
+    number: "02",
+    title: "Überall weiterentwickeln",
+    text: "Sportlich und persönlich nicht stehen bleiben, sondern jeden Tag ein Stück wachsen.",
+  },
+  {
+    number: "03",
+    title: "Möglichst viel reisen",
+    text: "Neue Orte, Menschen und Perspektiven kennenlernen – am liebsten immer in Richtung Meer.",
   },
 ];
 
@@ -213,7 +263,7 @@ export default function Home() {
         <nav aria-label="Hauptnavigation">
           <a href="#about">Profil</a>
           <a href="#scroll-story">Scroll Story</a>
-          <a href="#interessen">Interessen</a>
+          <a href="#ziele">Ziele</a>
         </nav>
         <div className="menu-shell" ref={menuRef}>
           <button
@@ -246,6 +296,9 @@ export default function Home() {
                 <span>{item.number}</span> {item.title} <i>{item.icon}</i>
               </a>
             ))}
+            <a href="#ziele" onClick={closeMenu}>
+              <span>05</span> Ziele + Kontakt <i>↘</i>
+            </a>
           </div>
         </div>
       </header>
@@ -289,7 +342,7 @@ export default function Home() {
 
         <aside className="hero-note">
           <span>GERADE AM LERNEN</span>
-          <strong>Klavier<br />&amp; Code</strong>
+          <strong>HTML<br />CSS / JS</strong>
           <i aria-hidden="true">↘</i>
         </aside>
 
@@ -377,13 +430,13 @@ export default function Home() {
 
       <section className="quick-section">
         <div className="quick-intro" data-reveal>
-          <p className="eyebrow">BENJAMIN / KOMPAKT</p>
-          <h2>Vier Dinge,<br /><em>die passen.</em></h2>
-          <p>Aufklappen für die Kurzfassung. Der Rest dieser Seite ist die Langfassung.</p>
+          <p className="eyebrow">PERSONAL INDEX / 09</p>
+          <h2>Neun Dinge,<br /><em>die wirklich passen.</em></h2>
+          <p>Aufklappen und mehr erfahren – diesmal mit echten Lieblingsorten, Zielen und Sounds.</p>
         </div>
         <div className="quick-grid">
           {quickFacts.map((fact, index) => (
-            <details className="quick-fact" key={fact.label} data-reveal>
+            <details className={`quick-fact ${fact.compact ? "compact" : ""}`} key={fact.label} data-reveal>
               <summary>
                 <span>0{index + 1} / {fact.label}</span>
                 <strong>{fact.value}</strong>
@@ -395,6 +448,41 @@ export default function Home() {
             </details>
           ))}
         </div>
+      </section>
+
+      <section className="goal-section" id="ziele">
+        <div className="goal-intro" data-reveal>
+          <p className="eyebrow">05 / WAS JETZT ZÄHLT</p>
+          <h2>Drei Ziele.<br /><em>Kein Stillstand.</em></h2>
+          <p>
+            Keine Bucket List für irgendwann – sondern die Richtung, in die ich
+            mich gerade bewege.
+          </p>
+        </div>
+
+        <div className="goal-board">
+          {goals.map((goal) => (
+            <article className="goal-note" key={goal.number} data-reveal>
+              <span>{goal.number} / NEXT</span>
+              <strong>{goal.title}</strong>
+              <p>{goal.text}</p>
+              <i aria-hidden="true">↗</i>
+            </article>
+          ))}
+        </div>
+
+        <a
+          className="instagram-card"
+          href="https://www.instagram.com/b.j.1308"
+          target="_blank"
+          rel="noreferrer"
+          data-reveal
+          aria-label="Benjamin auf Instagram öffnen"
+        >
+          <span>KONTAKT / INSTAGRAM</span>
+          <strong>@b.j.1308</strong>
+          <i>↗</i>
+        </a>
       </section>
 
       <section className="interests" id="interessen">
@@ -502,7 +590,10 @@ export default function Home() {
       <footer>
         <a className="logo" href="#top">B/<span>18</span></a>
         <p>Benjamin · 18 · Always learning</p>
-        <a href="#top">BACK TO TOP ↑</a>
+        <div>
+          <a href="https://www.instagram.com/b.j.1308" target="_blank" rel="noreferrer">INSTAGRAM ↗</a>
+          <a href="#top">BACK TO TOP ↑</a>
+        </div>
       </footer>
     </main>
   );

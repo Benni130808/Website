@@ -996,6 +996,11 @@ img {
   letter-spacing: -0.055em;
 }
 
+.quick-fact.compact summary strong {
+  font-size: clamp(2.15rem, 4.2vw, 4.7rem);
+  line-height: 0.86;
+}
+
 .quick-fact summary i {
   grid-column: 2;
   grid-row: 1;
@@ -1020,6 +1025,177 @@ img {
   margin: 0;
   font-weight: 700;
   line-height: 1.5;
+}
+
+.goal-section {
+  position: relative;
+  overflow: hidden;
+  padding: 10vw 5vw 11vw;
+  color: var(--paper);
+  background:
+    linear-gradient(rgba(241, 236, 223, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(241, 236, 223, 0.055) 1px, transparent 1px),
+    var(--ink);
+  background-size: 6vw 6vw;
+}
+
+.goal-section::before {
+  content: "NEXT / NEXT / NEXT";
+  position: absolute;
+  right: -0.05em;
+  top: -0.16em;
+  color: rgba(241, 236, 223, 0.035);
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: 19vw;
+  line-height: 0.82;
+  letter-spacing: -0.07em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.goal-intro {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 0.45fr 1.6fr 0.55fr;
+  gap: 4vw;
+  align-items: end;
+  margin-bottom: 6rem;
+}
+
+.goal-intro .eyebrow {
+  align-self: start;
+  padding-top: 0.8rem;
+  color: var(--lime);
+}
+
+.goal-intro h2 {
+  margin: 0;
+  font-size: clamp(3.7rem, 7.6vw, 8.4rem);
+  line-height: 0.82;
+  letter-spacing: -0.075em;
+}
+
+.goal-intro h2 em {
+  color: var(--coral);
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+
+.goal-intro > p:last-child {
+  margin: 0;
+  padding: 1rem 0;
+  border-top: 2px solid var(--paper);
+  border-bottom: 1px solid rgba(241, 236, 223, 0.5);
+  color: rgba(241, 236, 223, 0.68);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.goal-board {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.2vw;
+}
+
+.goal-note {
+  position: relative;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid var(--paper);
+  color: var(--ink);
+  background: var(--lime);
+  box-shadow: 12px 14px 0 rgba(0, 0, 0, 0.3);
+  transform: rotate(-1.3deg);
+}
+
+.goal-note:nth-child(2) {
+  color: var(--ink);
+  background: var(--paper);
+  transform: translateY(2.2rem) rotate(1.1deg);
+}
+
+.goal-note:nth-child(3) {
+  color: var(--paper);
+  background: var(--blue);
+  transform: rotate(-0.5deg);
+}
+
+.goal-note > span {
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.goal-note strong {
+  max-width: 90%;
+  margin-top: auto;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: clamp(2.4rem, 4vw, 4.7rem);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+}
+
+.goal-note p {
+  max-width: 94%;
+  margin: 1.2rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid currentColor;
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.goal-note i {
+  position: absolute;
+  right: 1.4rem;
+  top: 1.2rem;
+  font-size: 1.5rem;
+  font-style: normal;
+}
+
+.instagram-card {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 7rem;
+  padding: 1.7rem 0;
+  border-top: 2px solid var(--paper);
+  border-bottom: 2px solid var(--paper);
+  transition: color 0.22s, padding 0.22s, background 0.22s;
+}
+
+.instagram-card:hover {
+  padding-inline: 1.2rem;
+  color: var(--ink);
+  background: var(--coral);
+}
+
+.instagram-card span {
+  font-family: "Courier New", monospace;
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.instagram-card strong {
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: clamp(2.5rem, 5.7vw, 6rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+}
+
+.instagram-card i {
+  font-size: 2rem;
+  font-style: normal;
 }
 
 .interests {
@@ -1445,6 +1621,11 @@ footer {
   text-transform: uppercase;
 }
 
+footer > div {
+  display: flex;
+  gap: 1.5rem;
+}
+
 [data-reveal] {
   opacity: 0;
   clip-path: inset(0 0 22% 0);
@@ -1519,11 +1700,13 @@ footer {
   }
 
   .quick-intro,
+  .goal-intro,
   .section-head {
     grid-template-columns: 0.42fr 1.7fr;
   }
 
   .quick-intro > p:last-child,
+  .goal-intro > p:last-child,
   .section-head > p:last-child {
     grid-column: 2;
   }
@@ -1737,17 +1920,20 @@ footer {
   }
 
   .quick-intro,
+  .goal-intro,
   .section-head {
     grid-template-columns: 1fr;
     margin-bottom: 3.5rem;
   }
 
   .quick-intro > p:last-child,
+  .goal-intro > p:last-child,
   .section-head > p:last-child {
     grid-column: auto;
   }
 
   .quick-intro h2,
+  .goal-intro h2,
   .section-head h2 {
     font-size: 16vw;
   }
@@ -1767,6 +1953,47 @@ footer {
 
   .quick-fact > div {
     padding-inline: 1.2rem;
+  }
+
+  .goal-section {
+    padding: 24vw 1rem 28vw;
+    background-size: 24vw 24vw;
+  }
+
+  .goal-board {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+
+  .goal-note {
+    min-height: 310px;
+    transform: rotate(-0.8deg);
+  }
+
+  .goal-note:nth-child(2) {
+    transform: rotate(0.8deg);
+  }
+
+  .goal-note:nth-child(3) {
+    transform: rotate(-0.4deg);
+  }
+
+  .goal-note strong {
+    font-size: 13vw;
+  }
+
+  .instagram-card {
+    grid-template-columns: 1fr auto;
+    gap: 0.7rem;
+    margin-top: 4rem;
+  }
+
+  .instagram-card span {
+    grid-column: 1 / -1;
+  }
+
+  .instagram-card strong {
+    font-size: 14vw;
   }
 
   .interests {
@@ -1869,6 +2096,11 @@ footer {
     flex-wrap: wrap;
     gap: 1rem;
     padding-inline: 1rem;
+  }
+
+  footer > div {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
