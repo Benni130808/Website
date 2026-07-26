@@ -138,9 +138,20 @@ const goals = [
   },
 ];
 
+const chapters = [
+  { id: "about", number: "00", label: "Profil" },
+  { id: "facts", number: "01", label: "Steckbrief" },
+  { id: "scroll-story", number: "02", label: "Tour" },
+  { id: "interessen", number: "03", label: "Deep Dive" },
+  { id: "ziele", number: "04", label: "Ziele" },
+  { id: "next", number: "05", label: "Ausblick" },
+];
+
 export default function Home() {
   const [active, setActive] = useState("sport");
+  const [activeChapter, setActiveChapter] = useState("about");
   const [flipped, setFlipped] = useState<string | null>(null);
+  const [openFact, setOpenFact] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
   const rootRef = useRef<HTMLElement | null>(null);
@@ -179,6 +190,18 @@ export default function Home() {
 
     Object.values(cardRefs.current).forEach((node) => node && cardObserver.observe(node));
 
+    const chapterObserver = new IntersectionObserver(
+      (entries) => {
+        const current = entries.find((entry) => entry.isIntersecting);
+        if (current?.target.id) setActiveChapter(current.target.id);
+      },
+      { rootMargin: "-42% 0px -53%", threshold: 0 },
+    );
+
+    document.querySelectorAll<HTMLElement>("[data-chapter]").forEach((node) => {
+      chapterObserver.observe(node);
+    });
+
     let scrollFrame = 0;
     let lastStoryIndex = -1;
     const onScroll = () => {
@@ -215,6 +238,7 @@ export default function Home() {
     return () => {
       revealObserver.disconnect();
       cardObserver.disconnect();
+      chapterObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
     };
@@ -255,6 +279,21 @@ export default function Home() {
   return (
     <main ref={rootRef}>
       <div className="scroll-progress" aria-hidden="true" />
+      <nav className="chapter-nav" aria-label="Kapitelübersicht">
+        <span className="chapter-nav-title">KAPITEL</span>
+        {chapters.map((chapter) => (
+          <a
+            key={chapter.id}
+            href={`#${chapter.id}`}
+            className={activeChapter === chapter.id ? "active" : ""}
+            aria-current={activeChapter === chapter.id ? "step" : undefined}
+            aria-label={`${chapter.number}: ${chapter.label}`}
+          >
+            <span>{chapter.number}</span>
+            <small>{chapter.label}</small>
+          </a>
+        ))}
+      </nav>
 
       <header className="nav">
         <a className="logo" href="#top" aria-label="Zurück zum Anfang">
@@ -369,7 +408,7 @@ export default function Home() {
         </a>
       </section>
 
-      <section className="manifesto" id="about">
+      <section className="manifesto" id="about" data-chapter>
         <div className="manifesto-label" data-reveal>
           <span>00 / PROFIL</span>
           <i />
@@ -388,25 +427,47 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="quick-section" id="facts">
+      <section className="quick-section" id="facts" data-chapter>
         <div className="quick-intro" data-reveal>
           <p className="eyebrow">01 / PERSONAL INDEX / 09</p>
           <h2>Neun Dinge,<br /><em>die wirklich passen.</em></h2>
           <p>Aufklappen und mehr erfahren – diesmal mit echten Lieblingsorten, Zielen und Sounds.</p>
         </div>
         <div className="quick-grid">
-          {quickFacts.map((fact, index) => (
-            <details className={`quick-fact ${fact.compact ? "compact" : ""}`} key={fact.label} data-reveal>
-              <summary>
+          {quickFacts.map((fact, index) => {
+            const isOpen = openFact === index;
+            return (
+            <article
+              className={`quick-fact ${fact.compact ? "compact" : ""} ${isOpen ? "is-open" : ""}`}
+              key={fact.label}
+              data-reveal
+            >
+              <button
+                className="fact-toggle"
+                type="button"
+                id={`fact-toggle-${index}`}
+                aria-expanded={isOpen}
+                aria-controls={`fact-panel-${index}`}
+                onClick={() => setOpenFact(isOpen ? null : index)}
+              >
                 <span>0{index + 1} / {fact.label}</span>
                 <strong>{fact.value}</strong>
                 <i>＋</i>
-              </summary>
-              <div>
-                <p>{fact.text}</p>
+              </button>
+              <div
+                className="fact-panel"
+                id={`fact-panel-${index}`}
+                role="region"
+                aria-labelledby={`fact-toggle-${index}`}
+                aria-hidden={!isOpen}
+              >
+                <div>
+                  <p>{fact.text}</p>
+                </div>
               </div>
-            </details>
-          ))}
+            </article>
+            );
+          })}
         </div>
       </section>
 
@@ -414,6 +475,7 @@ export default function Home() {
         className="scroll-story"
         id="scroll-story"
         ref={storyRef}
+        data-chapter
         aria-label="Meine Interessen als Scroll-Geschichte"
       >
         <div className="story-sticky">
@@ -457,7 +519,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="interests" id="interessen">
+      <section className="interests" id="interessen" data-chapter>
         <div className="section-head" data-reveal>
           <p className="eyebrow">03 / DEEP DIVE / 04 KARTEN</p>
           <h2>Klick rein.<br /><em>Dreh um.</em></h2>
@@ -540,7 +602,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="goal-section" id="ziele">
+      <section className="goal-section" id="ziele" data-chapter>
         <div className="goal-intro" data-reveal>
           <p className="eyebrow">04 / WAS JETZT ZÄHLT</p>
           <h2>Drei Ziele.<br /><em>Kein Stillstand.</em></h2>
@@ -575,7 +637,7 @@ export default function Home() {
         </a>
       </section>
 
-      <section className="finale" id="next">
+      <section className="finale" id="next" data-chapter>
         <div className="finale-photo" data-reveal>
           <span className="tape tape-top" aria-hidden="true" />
           <img src="/images/meer.png" alt="Blick auf einen Surfer im Meer" />

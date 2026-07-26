@@ -63,6 +63,98 @@ img {
   pointer-events: none;
 }
 
+.chapter-nav {
+  position: fixed;
+  z-index: 120;
+  left: 1rem;
+  top: 50%;
+  display: grid;
+  width: 48px;
+  padding: 0.55rem 0.45rem;
+  border: 1px solid rgba(23, 25, 21, 0.45);
+  color: var(--ink);
+  background: rgba(241, 236, 223, 0.92);
+  box-shadow: 7px 8px 0 rgba(23, 25, 21, 0.16);
+  backdrop-filter: blur(10px);
+  transform: translateY(-50%);
+  transition: width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.chapter-nav:hover,
+.chapter-nav:focus-within {
+  width: 136px;
+}
+
+.chapter-nav-title {
+  display: block;
+  overflow: hidden;
+  margin: 0 0 0.45rem;
+  color: rgba(23, 25, 21, 0.52);
+  font-family: "Courier New", monospace;
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.chapter-nav a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  min-height: 35px;
+  font-family: "Courier New", monospace;
+}
+
+.chapter-nav a::before {
+  content: "";
+  position: absolute;
+  left: -0.45rem;
+  width: 3px;
+  height: 0;
+  background: var(--coral);
+  transition: height 0.22s ease;
+}
+
+.chapter-nav a.active::before {
+  height: 22px;
+}
+
+.chapter-nav a > span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid transparent;
+  font-size: 0.54rem;
+  font-weight: 700;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.chapter-nav a.active > span {
+  border-color: var(--ink);
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.chapter-nav a small {
+  overflow: hidden;
+  opacity: 0;
+  font-size: 0.54rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: opacity 0.18s;
+}
+
+.chapter-nav:hover a small,
+.chapter-nav:focus-within a small {
+  opacity: 1;
+}
+
+.chapter-nav a:hover small {
+  color: var(--coral);
+}
+
 .nav {
   position: absolute;
   z-index: 60;
@@ -336,7 +428,7 @@ img {
   font-stretch: condensed;
   font-weight: 950;
   line-height: 0.65;
-  letter-spacing: -0.105em;
+  letter-spacing: -0.06em;
   text-transform: uppercase;
 }
 
@@ -614,7 +706,7 @@ img {
   font-size: clamp(2.5rem, 5.25vw, 5.7rem);
   font-weight: 860;
   line-height: 0.98;
-  letter-spacing: -0.062em;
+  letter-spacing: -0.032em;
 }
 
 .manifesto-copy em {
@@ -823,7 +915,7 @@ img {
   font-size: clamp(5rem, 10.5vw, 11rem);
   font-weight: 900;
   line-height: 0.78;
-  letter-spacing: -0.075em;
+  letter-spacing: -0.04em;
 }
 
 .story-copy p {
@@ -923,7 +1015,7 @@ img {
   margin: 0;
   font-size: clamp(3.7rem, 7.6vw, 8.4rem);
   line-height: 0.82;
-  letter-spacing: -0.075em;
+  letter-spacing: -0.04em;
 }
 
 .quick-intro h2 em,
@@ -949,37 +1041,44 @@ img {
 }
 
 .quick-fact {
-  border: 0;
   border-bottom: 1px solid var(--ink);
   background: transparent;
+  transition: background 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .quick-fact:nth-child(odd) {
   border-right: 1px solid var(--ink);
 }
 
-.quick-fact summary {
+.fact-toggle {
   position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
+  width: 100%;
   min-height: 180px;
   padding: 1.5rem 2rem;
-  list-style: none;
+  border: 0;
+  color: var(--ink);
+  background: transparent;
+  text-align: left;
   cursor: pointer;
-  transition: color 0.22s, background 0.22s;
+  transition:
+    min-height 0.46s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 0.32s,
+    background 0.38s;
 }
 
-.quick-fact summary::-webkit-details-marker {
-  display: none;
-}
-
-.quick-fact summary:hover,
-.quick-fact[open] summary {
+.fact-toggle:hover,
+.quick-fact.is-open .fact-toggle {
   color: var(--paper);
   background: var(--ink);
 }
 
-.quick-fact summary > span {
+.quick-fact.is-open .fact-toggle {
+  min-height: 132px;
+}
+
+.fact-toggle > span {
   font-family: "Courier New", monospace;
   font-size: 0.59rem;
   font-weight: 700;
@@ -987,42 +1086,60 @@ img {
   text-transform: uppercase;
 }
 
-.quick-fact summary strong {
+.fact-toggle strong {
   grid-column: 1 / -1;
   align-self: end;
   font-family: Impact, "Arial Narrow", sans-serif;
   font-size: clamp(3.2rem, 6vw, 6.2rem);
   line-height: 0.8;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.03em;
+  transition: transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.quick-fact.compact summary strong {
+.quick-fact.compact .fact-toggle strong {
   font-size: clamp(2.15rem, 4.2vw, 4.7rem);
   line-height: 0.86;
 }
 
-.quick-fact summary i {
+.fact-toggle i {
   grid-column: 2;
   grid-row: 1;
   font-size: 1.2rem;
   font-style: normal;
-  transition: transform 0.25s;
+  transition: transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.quick-fact[open] summary i {
+.quick-fact.is-open .fact-toggle i {
   transform: rotate(45deg);
 }
 
-.quick-fact > div {
-  padding: 1.4rem 2rem 2rem;
-  border-top: 1px dashed var(--ink);
+.fact-panel {
+  display: grid;
+  grid-template-rows: 0fr;
   background: var(--lime);
-  animation: note-in 0.3s both;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    grid-template-rows 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.32s ease,
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.quick-fact > div p {
+.quick-fact.is-open .fact-panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: none;
+}
+
+.fact-panel > div {
+  overflow: hidden;
+}
+
+.fact-panel p {
   max-width: 500px;
   margin: 0;
+  padding: 1.4rem 2rem 2rem;
+  border-top: 1px dashed var(--ink);
   font-weight: 700;
   line-height: 1.5;
 }
@@ -1073,7 +1190,7 @@ img {
   margin: 0;
   font-size: clamp(3.7rem, 7.6vw, 8.4rem);
   line-height: 0.82;
-  letter-spacing: -0.075em;
+  letter-spacing: -0.04em;
 }
 
 .goal-intro h2 em {
@@ -1138,7 +1255,7 @@ img {
   font-family: Impact, "Arial Narrow", sans-serif;
   font-size: clamp(2.4rem, 4vw, 4.7rem);
   line-height: 0.88;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.02em;
 }
 
 .goal-note p {
@@ -1190,7 +1307,7 @@ img {
   font-family: Impact, "Arial Narrow", sans-serif;
   font-size: clamp(2.5rem, 5.7vw, 6rem);
   line-height: 0.8;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.015em;
 }
 
 .instagram-card i {
@@ -1444,7 +1561,7 @@ img {
   font-family: Impact, "Arial Narrow", sans-serif;
   font-size: clamp(5rem, 10.5vw, 10rem);
   line-height: 0.74;
-  letter-spacing: -0.07em;
+  letter-spacing: -0.038em;
 }
 
 .flip-hint {
@@ -1567,7 +1684,7 @@ img {
   font-family: Impact, "Arial Narrow", sans-serif;
   font-size: clamp(4.8rem, 9.8vw, 11rem);
   line-height: 0.76;
-  letter-spacing: -0.075em;
+  letter-spacing: -0.04em;
 }
 
 .finale h2 span {
@@ -1713,6 +1830,48 @@ footer > div {
 }
 
 @media (max-width: 760px) {
+  .chapter-nav,
+  .chapter-nav:hover,
+  .chapter-nav:focus-within {
+    left: 50%;
+    top: auto;
+    bottom: 0.7rem;
+    grid-template-columns: repeat(6, 1fr);
+    width: min(360px, calc(100vw - 1.4rem));
+    padding: 0.35rem;
+    box-shadow: 5px 6px 0 rgba(23, 25, 21, 0.16);
+    transform: translateX(-50%);
+  }
+
+  .chapter-nav-title,
+  .chapter-nav a small {
+    display: none;
+  }
+
+  .chapter-nav a {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 34px;
+  }
+
+  .chapter-nav a::before {
+    left: 50%;
+    top: -0.35rem;
+    width: 0;
+    height: 3px;
+    transform: translateX(-50%);
+    transition: width 0.22s ease;
+  }
+
+  .chapter-nav a.active::before {
+    width: 24px;
+    height: 3px;
+  }
+
+  .chapter-nav a > span {
+    justify-self: center;
+  }
+
   .nav {
     height: 72px;
     grid-template-columns: 1fr 1fr;
@@ -1946,12 +2105,16 @@ footer > div {
     border-right: 0;
   }
 
-  .quick-fact summary {
+  .fact-toggle {
     min-height: 140px;
     padding: 1.2rem;
   }
 
-  .quick-fact > div {
+  .quick-fact.is-open .fact-toggle {
+    min-height: 112px;
+  }
+
+  .fact-panel p {
     padding-inline: 1.2rem;
   }
 
