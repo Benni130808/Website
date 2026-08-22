@@ -27,7 +27,7 @@ const interests = [
       { label: "Meine Position", value: "Linker Flügel" },
       { label: "Gym-Ziel", value: "Ein Muscle-Up" },
     ],
-    image: "/images/sport-benjamin.webp",
+    image: "/images/sport-benjamin-v2.webp",
     imageAlt: "Benjamin beim Tennisaufschlag auf einem blauen Court",
     icon: textSymbols.northEast,
     color: "lime",
@@ -47,7 +47,7 @@ const interests = [
       { label: "Bruno-Mars-Song", value: "Grenade" },
       { label: "Aktuell", value: "Passacaglia" },
     ],
-    image: "/images/musik-benjamin.webp",
+    image: "/images/musik-benjamin-v2.webp",
     imageAlt: "Benjamin spielt Gitarre in seinem Musikzimmer",
     icon: "♫",
     color: "coral",
@@ -66,7 +66,7 @@ const interests = [
       { label: "Erstes Projekt", value: "Ein kleines, lustiges Programm" },
       { label: "Mein Reiz", value: "Erschaffen & optimieren" },
     ],
-    image: "/images/code-benjamin.webp",
+    image: "/images/code-benjamin-v2.webp",
     imageAlt: "Benjamin lernt Programmieren an seinem Schreibtisch",
     icon: "{ }",
     color: "blue",
@@ -605,7 +605,12 @@ export default function Home() {
                   >
                     <span className="flip-card-inner">
                       <span className="card-face card-front">
-                        <img src={item.image} alt={item.imageAlt} />
+                        <span
+                          className="card-photo"
+                          style={{ "--card-image": `url("${item.image}")` } as React.CSSProperties}
+                        >
+                          <img src={item.image} alt={item.imageAlt} />
+                        </span>
                         <span className="image-shade" />
                         <span className="card-top">
                           <span>ARCHIV / {item.number}</span>

@@ -1473,16 +1473,37 @@ img {
   pointer-events: none;
 }
 
-.card-front > img {
+.card-photo {
   position: absolute;
   inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.card-photo::before {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  background-image: var(--card-image);
+  background-position: center;
+  background-size: cover;
+  filter: blur(20px) saturate(0.68) brightness(0.58);
+  transform: scale(1.1);
+}
+
+.card-photo > img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: saturate(0.78) contrast(1.07);
+  object-fit: contain;
+  filter: saturate(0.82) contrast(1.05);
   transition: transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s;
 }
 
-.flip-card:hover .card-front > img {
+.flip-card:hover .card-photo > img {
   transform: scale(1.035);
   filter: saturate(1) contrast(1.04);
 }

@@ -34,11 +34,11 @@ test("server-renders Benjamin's finished portfolio", async () => {
   assert.match(html, /BENJAMIN/);
   assert.match(html, /Neun Dinge/);
   assert.match(html, /Drei Ziele/);
-  assert.match(html, /\/images\/sport-benjamin\.webp/);
-  assert.match(html, /\/images\/musik-benjamin\.webp/);
-  assert.match(html, /\/images\/code-benjamin\.webp/);
-  assert.match(html, /\/images\/meer-benjamin\.webp/);
-  assert.match(html, /\/og-v3\.png/);
+  assert.match(html, /\/images\/sport-benjamin-v2\.webp/);
+  assert.match(html, /\/images\/musik-benjamin-v2\.webp/);
+  assert.match(html, /\/images\/code-benjamin-v2\.webp/);
+  assert.match(html, /\/images\/meer-benjamin-v2\.webp/);
+  assert.match(html, /\/og-v4\.png/);
   assert.doesNotMatch(html, /codex-preview|Building your site|Starter Project/i);
 });
 
@@ -53,16 +53,16 @@ test("keeps the generated identity assets project-local", async () => {
   );
 
   for (const asset of [
-    "sport-benjamin.webp",
-    "musik-benjamin.webp",
-    "code-benjamin.webp",
-    "meer-benjamin.webp",
+    "sport-benjamin-v2.webp",
+    "musik-benjamin-v2.webp",
+    "code-benjamin-v2.webp",
+    "meer-benjamin-v2.webp",
   ]) {
     assert.match(page, new RegExp(`/images/${asset.replace(".", "\\.")}`));
     await access(new URL(`../public/images/${asset}`, import.meta.url));
   }
 
-  assert.match(layout, /og-v3\.png/);
-  await access(new URL("../public/og-v3.png", import.meta.url));
+  assert.match(layout, /og-v4\.png/);
+  await access(new URL("../public/og-v4.png", import.meta.url));
   assert.doesNotMatch(page, /\/images\/(sport|musik|code|meer)\.png/);
 });

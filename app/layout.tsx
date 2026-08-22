@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: `${origin}/og-v3.png`,
+          url: `${origin}/og-v4.png`,
           width: 1200,
           height: 630,
           alt: "Benjamin — 18 / Sport / Musik / Code / Meer",
@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "Benjamin — Field Notes",
       description: "18 / Sport / Musik / Code / Meer",
-      images: [`${origin}/og-v3.png`],
+      images: [`${origin}/og-v4.png`],
     },
   };
 }
