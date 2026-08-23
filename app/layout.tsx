@@ -19,11 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(origin),
-    title: "Benjamin — Field Notes",
+    title: "Benjamin —  Portfolio",
     description:
-      "Benjamin, 18: Sport, Musik, Code und Meer – als persönliches digitales Field-Notes-Heft.",
+      "Benjamin, 18: Sport, Musik, Code und Meer – als persönliches digitales Portfolio.",
     openGraph: {
-      title: "Benjamin — Field Notes",
+      title: "Benjamin — Portfolio",
       description: "18 / Sport / Musik / Code / Meer",
       url: origin,
       siteName: "Benjamin",
@@ -40,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Benjamin — Field Notes",
+      title: "Benjamin — Portfolio",
       description: "18 / Sport / Musik / Code / Meer",
       images: [`${origin}/og-v4.png`],
     },
