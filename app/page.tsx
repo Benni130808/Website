@@ -463,7 +463,7 @@ export default function Home() {
         <div className="quick-intro" data-reveal>
           <p className="eyebrow">01 / PERSONAL INDEX / 09</p>
           <h2>Neun Dinge,<br /><em>die wirklich passen.</em></h2>
-          <p>Aufklappen und mehr erfahren – diesmal mit echten Lieblingsorten, Zielen und Sounds.</p>
+          <p>Aufklappen und mehr erfahren – mit echten Lieblingsorten, Zielen und Sounds.</p>
         </div>
         <div className="quick-grid">
           {quickFacts.map((fact, index) => {
